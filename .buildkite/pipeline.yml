@@ -1,10 +1,10 @@
 steps:
-  - label: ":pip: Install app dependencies"
-    command: bin/install_app_dependencies.sh
-    key: pip
+  - plugins:
+    - docker-compose#v5.2.0:
+        build: web
 
   - wait
 
-  - label: ":rocket: Deploy"
-    command: bin/deploy.sh
-    key: deploy
+  # - label: ":rocket: Deploy"
+  #   command: bin/deploy.sh
+  #   key: deploy
