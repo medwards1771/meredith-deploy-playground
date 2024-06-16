@@ -35,3 +35,5 @@ sudo usermod -aG docker buildkite-agent
 sudo newgrp docker
 docker run hello-world
 EOF
+
+# Manually added my Docker login password as an ENV VAR inside the file /etc/buildkite-agent/hooks/environment

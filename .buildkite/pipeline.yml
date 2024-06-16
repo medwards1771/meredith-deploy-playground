@@ -1,11 +1,15 @@
 steps:
   - label: "Build"
     plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
     - docker-compose#v5.2.0:
         build: web
+        push: web:meredith1771/meredith-deploy-playground:latest
 
   - wait
 
-  # - label: ":rocket: Deploy"
-  #   command: bin/deploy.sh
-  #   key: deploy
+  - label: ":rocket: Deploy"
+    command: bin/deploy.sh
+    key: deploy
