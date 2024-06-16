@@ -10,11 +10,7 @@ set -euxo pipefail
 ssh ubuntu@ec2-18-117-103-65.us-east-2.compute.amazonaws.com << 'EOF'
 set -euo pipefail
 
-sudo apt-get update
-sudo apt-get -y upgrade
-
 echo "========= Install Docker ========="
-
 echo "Add Docker's official GPG key"
 sudo install -m 0755 -d /etc/apt/keyrings
 sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
