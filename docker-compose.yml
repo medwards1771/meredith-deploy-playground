@@ -1,5 +1,6 @@
 services:
   web:
     build: .
+    image: meredith1771/meredith-deploy-playground:latest
     ports:
       - "3000:8000"
