@@ -9,7 +9,7 @@ set -euxo pipefail
 # Set SSH_AUTH_SOCK so that ssh can find the buildkite-agent bind address
 export SSH_AUTH_SOCK=/var/lib/buildkite-agent/.ssh/ssh-agent.sock
 
-scp -r requirements.txt ubuntu@ec2-18-117-132-196.us-east-2.compute.amazonaws.com:tmp/
+scp -r requirements.txt ubuntu@ec2-18-226-165-142.us-east-2.compute.amazonaws.com:tmp/
 
 # connect to meredith-deploy-playground ec2 instance and run commands in EOF block
 ssh ubuntu@ec2-18-117-132-196.us-east-2.compute.amazonaws.com << 'EOF'
