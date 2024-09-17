@@ -6,9 +6,6 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-# Set SSH_AUTH_SOCK so that ssh can find the buildkite-agent bind address
-export SSH_AUTH_SOCK=/var/lib/buildkite-agent/.ssh/ssh-agent.sock
-
 MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 
 scp -r requirements.txt ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:tmp/
