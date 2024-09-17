@@ -1,7 +1,7 @@
 steps:
-  - label: ":pip: Install dependencies"
-    key: "pip"
-    command: bin/install_dependencies.sh
+  - label: ":pip: Install app dependencies"
+    command: bin/install_app_dependencies.sh
+    key: pip
 
   - wait
 
