@@ -12,7 +12,7 @@ export SSH_AUTH_SOCK=/var/lib/buildkite-agent/.ssh/ssh-agent.sock
 BUILDKITE_AGENT_RUNNER_PUBLIC_IP=ec2-18-226-165-142.us-east-2.compute.amazonaws.com
 MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 
-scp -r requirements.txt ubuntu@${BUILDKITE_AGENT_RUNNER_PUBLIC_IP}.compute.amazonaws.com:tmp/
+scp -r requirements.txt ubuntu@${BUILDKITE_AGENT_RUNNER_PUBLIC_IP}:tmp/
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
