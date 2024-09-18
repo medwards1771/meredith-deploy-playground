@@ -69,5 +69,3 @@ EOF
 
 # Had to manually update nginx config (https://flask.palletsprojects.com/en/2.3.x/deploying/nginx/) at
 # /etc/nginx/conf.d/default.conf
-
-# Had to manually add dir meredith-deploy-playground in order to nest flaskr dir within that
