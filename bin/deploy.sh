@@ -10,21 +10,13 @@ MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.com
 
 echo "Deploy changes to production"
 
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-mkdir tmp/
-EOF
-
-scp -r flaskr ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:tmp/
+scp -r flaskr ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euo pipefail
 
-mv tmp/flaskr meredith-deploy-playground/
+mv /tmp/flaskr meredith-deploy-playground/
 
 sudo systemctl restart flaskr
 # Make this fail if the status is not OK
-EOF
-
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-rm -rf tmp/
 EOF

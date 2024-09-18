@@ -18,11 +18,7 @@ MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.com
 #   IdentityFile /var/lib/buildkite-agent/.ssh/meredith-deploy-playground-web-server.pem
 #   User ubuntu
 
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-mkdir tmp/
-EOF
-
-scp -r requirements.txt ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:tmp/
+scp -r requirements.txt ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
@@ -41,12 +37,8 @@ python3 -m venv .venv
 source .venv/bin/activate
 
 echo "Install flask app requirements with pip"
-mv ~/tmp/requirements.txt .
+mv /tmp/requirements.txt .
 pip install -r requirements.txt
-EOF
-
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-rm -rf tmp/
 EOF
 
 # Had to manually create the dir /run/gunicorn in order to generate PID file :scream:
