@@ -1,0 +1,9 @@
+server {
+    listen 80;
+    server_name meredith-deploy-playground.co www.meredith-deploy-playground.co;
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/flaskr/flaskr.sock;
+    }
+}
