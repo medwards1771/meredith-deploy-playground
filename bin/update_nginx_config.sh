@@ -1,3 +1,5 @@
+# Run from local machine to update nginx configuration on meredith-deploy-playground-web-server
+
 #!/bin/bash
 
 # `e`	        Exit script immediately if any command returns a non-zero exit status

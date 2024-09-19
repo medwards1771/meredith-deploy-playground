@@ -8,15 +8,16 @@ set -euxo pipefail
 
 MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 
-# In order for this to work, I had to:
+# In order for the `scp -r` to work, I had to:
 # - upload a copy of "meredith-deploy-playground-web-server.pem" to the buildkite-agent-runner and move to dir
 #   /var/lib/buildkite-agent/.ssh/
 # - `sudo chown buildkite-agent:buildkite-agent /var/lib/buildkite-agent/.ssh/meredith-deploy-playground-web-server.pem`
-# - create "" file and add
+# - create "/var/lib/buildkite-agent/.ssh/config" file and add
 #   Host ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 #   AddKeysToAgent yes
 #   IdentityFile /var/lib/buildkite-agent/.ssh/meredith-deploy-playground-web-server.pem
 #   User ubuntu
+# - ssh onto the buildkite-agent-runner, and from there ssh onto the meredith-deploy-playground web server
 
 scp -r requirements.txt ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
 

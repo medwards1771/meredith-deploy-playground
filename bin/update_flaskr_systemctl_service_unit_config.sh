@@ -1,4 +1,4 @@
-# Run from local machine to update flaskr.service on meredith-deployment-playground-web-server
+# Run from local machine to update flaskr.service on meredith-deploy-playground-web-server
 
 #!/bin/bash
 
