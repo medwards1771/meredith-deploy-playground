@@ -1,5 +1,3 @@
-# Run this script from your local machine
-
 #!/bin/bash
 
 # `e`	        Exit script immediately if any command returns a non-zero exit status

@@ -1,5 +1,3 @@
-# Run from local machine to update nginx configuration on meredith-deploy-playground-web-server
-
 #!/bin/bash
 
 # `e`	        Exit script immediately if any command returns a non-zero exit status
@@ -10,8 +8,8 @@ set -euxo pipefail
 
 MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 
-scp flaskr-nginx-server-block ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/flaskr-nginx-server-block
-scp nginx.conf ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/nginx.conf
+scp bin/local/flaskr-nginx-server-block ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/flaskr-nginx-server-block
+scp bin/local/nginx.conf ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/nginx.conf
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
