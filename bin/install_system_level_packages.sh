@@ -22,11 +22,14 @@ sudo ufw allow OpenSSH
 printf "y" | sudo ufw enable
 
 # Install nginx
-sudo apt-get install nginx
+sudo apt-get install -y nginx
 
 # Whitelist nginx HTTP + HTTPS connections in UFW firewall
 sudo ufw allow 'Nginx Full'
 
 sudo ufw status
 systemctl status nginx
+
+# "Install networking tools"
+sudo apt-get install -y net-tools
 EOF

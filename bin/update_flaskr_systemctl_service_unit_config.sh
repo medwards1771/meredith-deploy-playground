@@ -21,6 +21,7 @@ sudo mv /tmp/flaskr.service /etc/systemd/system/flaskr.service
 echo "stop flaskr, reload daemons, enable flaskr, and start flaskr since flaskr.service file changed on disk"
 sudo systemctl stop flaskr
 sudo systemctl daemon-reload
+sleep 10
 sudo systemctl enable flaskr
 sudo systemctl start flaskr
 
