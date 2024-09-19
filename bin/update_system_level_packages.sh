@@ -6,11 +6,20 @@
 # `u`	        Exit script immediately if an undefined variable is used
 # `x`	        Expand and print each command before executing
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
-set -euxo pipefail
+set -euo pipefail
 
-MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
+SERVER=$1
 
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
+if [ $SERVER = webserver ]; then
+    PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
+elif [ $SERVER = buildkite ]; then
+    PUBLIC_IP=ec2-18-226-165-142.us-east-2.compute.amazonaws.com
+else
+    echo "No server given or unknown server"
+    exit
+fi
+
+ssh ubuntu@${PUBLIC_IP} << 'EOF'
 set -euo pipefail
 
 # Update apt package index to get latest package versions
