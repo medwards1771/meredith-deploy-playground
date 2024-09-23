@@ -1,7 +1,8 @@
 server {
-    listen 80;
-    listen [::]:80;
     server_name meredith-deploy-playground.co www.meredith-deploy-playground.co;
+
+    listen [::]:80;
+    listen 80;
 
     location / {
         include proxy_params;
