@@ -4,3 +4,4 @@ services:
     image: meredith1771/meredith-deploy-playground:latest
     ports:
       - "3000:8000"
+    restart: always
