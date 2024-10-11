@@ -6,9 +6,27 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-# connect to buildkite-agent-runner ec2 instance and run commands in EOF block
-ssh ubuntu@ec2-18-117-103-65.us-east-2.compute.amazonaws.com << 'EOF'
+MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
+
+ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euo pipefail
+
+echo "========= Update apt package index to get latest package versions ========="
+sudo apt-get update
+
+echo "========= Add OpenSSH to the list of services whitelisted by UFW firewall ========="
+sudo ufw allow OpenSSH
+echo "========= Enable UFW firewall ========="
+printf "y" | sudo ufw enable
+
+echo "========= Install nginx ========="
+sudo apt-get install -y nginx
+
+echo "========= Whitelist nginx HTTP + HTTPS connections in UFW firewall ========="
+sudo ufw allow 'Nginx Full'
+
+sudo ufw status
+systemctl status nginx
 
 echo "========= Install Docker ========="
 echo "Add Docker's official GPG key"
@@ -26,10 +44,8 @@ sudo apt-get update
 echo "Install the latest version of Docker"
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-echo "Allow docker to be run as buildkite-agent user"
-sudo usermod -aG docker buildkite-agent
+echo "Allow Docker to be run as ubuntu user"
+sudo usermod -aG docker ubuntu
 sudo newgrp docker
 docker run hello-world
 EOF
-
-# Manually added my Docker login password as an ENV VAR inside the file /etc/buildkite-agent/hooks/environment
