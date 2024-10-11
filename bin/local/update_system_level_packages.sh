@@ -20,9 +20,12 @@ fi
 ssh ubuntu@${PUBLIC_IP} << 'EOF'
 set -euo pipefail
 
-# Update apt package index to get latest package versions
-sudo apt-get update
+echo "========= Update apt package index to get latest package versions ========="
+sudo apt-get -y update
 
-# Upgrade all out-of-date apt packages
-sudo apt-get upgrade
+echo "========= Upgrade all out-of-date apt packages ========="
+sudo apt-get -y upgrade
+
+echo "========= Remove unneeded packages ========="
+sudo apt-get -y autoremove
 EOF
