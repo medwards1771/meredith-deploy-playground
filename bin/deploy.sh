@@ -10,16 +10,9 @@ MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.com
 
 echo "Deploy changes to production"
 
-scp -r flaskr ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
-
 # something seems a lil weird about using EOF to run scripts on nginx instance. look into alternatives, princess!
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
-
-mv /tmp/flaskr meredith-deploy-playground/
-
-sudo systemctl restart flaskr
-# Make this fail if the status is not OK
 
 docker compose up --detach --pull always web
 EOF
