@@ -2,8 +2,9 @@
 
 # `e`	        Exit script immediately if any command returns a non-zero exit status
 # `u`	        Exit script immediately if an undefined variable is used
+# `x`	        Expand and print each command before executing
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
-set -euo pipefail
+set -euxo pipefail
 
 SERVER=$1
 
@@ -17,12 +18,6 @@ fi
 ssh ubuntu@${PUBLIC_IP} << 'EOF'
 set -euo pipefail
 
-echo "========= Update apt package index to get latest package versions ========="
-sudo apt-get -y update
-
-echo "========= Upgrade all out-of-date apt packages ========="
-sudo apt-get -y upgrade
-
-echo "========= Remove unneeded packages ========="
-sudo apt-get -y autoremove
+echo "========= Restart system ========="
+sudo sudo systemctl reboot
 EOF

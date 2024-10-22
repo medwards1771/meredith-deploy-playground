@@ -16,4 +16,6 @@ steps:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     - docker-compose#v5.4.1:
+        # This is failing because it's running on the buildkite-agent instance, not the web server instance
+        # I think I need to install the buildkite-agent on the web server and delete the buildkite-agent instance
         run: web
