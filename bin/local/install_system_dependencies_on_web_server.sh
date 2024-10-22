@@ -9,7 +9,7 @@ set -euxo pipefail
 MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-set -euo pipefail
+set -euxo pipefail
 
 echo "========= Update apt package index to get latest package versions ========="
 sudo apt-get update
@@ -28,6 +28,9 @@ sudo ufw allow 'Nginx Full'
 sudo ufw status
 systemctl status nginx
 
+echo "========= Install members command ========="
+sudo apt-get install members
+
 echo "========= Install Docker ========="
 echo "Add Docker's official GPG key"
 sudo install -m 0755 -d /etc/apt/keyrings
@@ -44,8 +47,20 @@ sudo apt-get update
 echo "Install the latest version of Docker"
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-echo "Allow Docker to be run as ubuntu user"
-sudo usermod -aG docker ubuntu
+echo "Create new group and add buildkite-agent as member"
 sudo newgrp docker
-docker run hello-world
+sudo usermod -aG docker buildkite-agent
+
+echo "========= Install buildkite agent ========="
+# From https://buildkite.com/docs/agent/v3/ubuntu#installation
+echo "Download the Buildkite PGP key to a directory that is only writable by root"
+sudo curl -fsSL https://keys.openpgp.org/vks/v1/by-fingerprint/32A37959C2FA5C3C99EFBC32A79206696452D198 | \
+    sudo gpg --dearmor -o /usr/share/keyrings/buildkite-agent-archive-keyring.gpg
+echo "Add the signed source to list of apt sources"
+echo "deb [signed-by=/usr/share/keyrings/buildkite-agent-archive-keyring.gpg] \
+    https://apt.buildkite.com/buildkite-agent stable main" | \
+    sudo tee /etc/apt/sources.list.d/buildkite-agent.list
+echo "Install buildkite agent"
+sudo apt-get update && sudo apt-get install -y buildkite-agent
+echo "(Configured agent token manually)"
 EOF
