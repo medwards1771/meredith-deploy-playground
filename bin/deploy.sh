@@ -6,20 +6,6 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
-
 echo "Deploy changes to production"
 
-scp docker-compose.yml ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
-scp Dockerfile ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/
-
-# something seems a lil weird about using EOF to run scripts on nginx instance. look into alternatives, princess!
-ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-set -euxo pipefail
-
-echo "========= Move Docker files to current working directory ========="
-sudo mv /tmp/docker-compose.yml .
-sudo mv /tmp/Dockerfile .
-
 docker compose up --detach --pull always web
-EOF
