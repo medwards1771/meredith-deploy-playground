@@ -11,4 +11,8 @@ steps:
   - wait
 
   - label: ":rocket: Deploy"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/deploy.sh"
