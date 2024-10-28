@@ -11,4 +11,4 @@ RUN pip install -r requirements.txt
 
 COPY flaskr flaskr
 WORKDIR /meredith-deploy-playground/flaskr
-ENTRYPOINT ["gunicorn", "--workers=4", "--timeout=120", "--bind=0.0.0.0", "hello:app"]
+ENTRYPOINT ["gunicorn", "--workers", "3", "--timeout", "120", "--bind", ":8000", "hello:app"]

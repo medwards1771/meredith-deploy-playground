@@ -6,6 +6,6 @@ server {
 
     location / {
         include proxy_params;
-        proxy_pass http://unix:/home/ubuntu/meredith-deploy-playground/flaskr/flaskr.sock;
+        proxy_pass http://localhost:3000;
     }
 }
