@@ -1,10 +1,18 @@
 steps:
-  - label: ":pip: Install app dependencies"
-    command: bin/install_app_dependencies.sh
-    key: pip
+  - label: "Build"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    - docker-compose#v5.4.1:
+        build: web
+        push: web:meredith1771/meredith-deploy-playground:latest
 
   - wait
 
   - label: ":rocket: Deploy"
-    command: bin/deploy.sh
-    key: deploy
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    command: "bin/deploy.sh"

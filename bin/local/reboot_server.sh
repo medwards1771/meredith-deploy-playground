@@ -6,6 +6,18 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-echo "Deploy changes to production"
+SERVER=$1
 
-docker compose up --detach --pull always web
+if [ $SERVER = webserver ]; then
+    PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
+else
+    echo "No server given or unknown server"
+    exit
+fi
+
+ssh ubuntu@${PUBLIC_IP} << 'EOF'
+set -euo pipefail
+
+echo "========= Restart system ========="
+sudo sudo systemctl reboot
+EOF
