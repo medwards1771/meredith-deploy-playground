@@ -16,6 +16,7 @@ sudo apt-get update
 
 echo "========= Add OpenSSH to the list of services whitelisted by UFW firewall ========="
 sudo ufw allow OpenSSH
+
 echo "========= Enable UFW firewall ========="
 printf "y" | sudo ufw enable
 

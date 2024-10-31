@@ -24,7 +24,7 @@ scp -r requirements.txt ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
 
-echo "Install flask and its dependencies on web server"
+echo "Install python3 and related tools on web server"
 sudo apt-get update
 sudo apt-get -y install python3-pip python3-dev build-essential libssl-dev libffi-dev python3-setuptools python3-venv
 
