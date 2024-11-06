@@ -1,16 +1,33 @@
 steps:
-  - label: "Build"
+  - label: "Build nginx web server"
     plugins:
     - docker-login#v3.0.0:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     - docker-compose#v5.4.1:
-        build: web
-        push: web:meredith1771/meredith-deploy-playground:latest
+        build: nginx
+        push: nginx:meredith1771/nginx:latest
+
+
+  - label: "Build flaskr app"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    - docker-compose#v5.4.1:
+        build: flaskr
+        push: flaskr:meredith1771/meredith-deploy-playground:latest
 
   - wait
 
-  - label: ":rocket: Deploy"
+  - label: "Configure nginx"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    command: "bin/nginx.sh"
+
+  - label: ":rocket: Deploy flaskr app"
     plugins:
     - docker-login#v3.0.0:
         username: meredith1771

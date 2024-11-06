@@ -5,16 +5,9 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euo pipefail
 
-SERVER=$1
+MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-3-145-146-61.us-east-2.compute.amazonaws.com
 
-if [ $SERVER = webserver ]; then
-    PUBLIC_IP=ec2-18-223-186-177.us-east-2.compute.amazonaws.com
-else
-    echo "No server given or unknown server"
-    exit
-fi
-
-ssh ubuntu@${PUBLIC_IP} << 'EOF'
+ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euo pipefail
 
 echo "========= Update apt package index to get latest package versions ========="
