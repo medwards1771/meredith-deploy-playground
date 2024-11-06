@@ -9,6 +9,6 @@ ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 COPY requirements.txt .
 RUN pip install -r requirements.txt
 
-COPY flaskr flaskr
+COPY flaskr .
 WORKDIR /meredith-deploy-playground/flaskr
 ENTRYPOINT ["gunicorn", "--workers", "3", "--timeout", "120", "--bind", ":8000", "hello:app"]
