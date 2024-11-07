@@ -31,9 +31,5 @@ sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 echo "========= Update apt package index to get latest package versions ========="
 sudo apt-get update
 
-echo "========= Install members command ========="
-sudo apt-get install members
-
-echo "Create new group and add buildkite-agent as member"
-sudo newgrp docker
+echo "========= Add buildkite-agent to docker group ========="
 sudo usermod -aG docker buildkite-agent
