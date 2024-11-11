@@ -8,5 +8,4 @@ set -euxo pipefail
 
 echo "Configure nginx web server production"
 
-# sudo ln -s /etc/nginx/sites-available/flaskr /etc/nginx/sites-enabled || echo "symbolic link already created"
 docker compose up --detach --pull always nginx
