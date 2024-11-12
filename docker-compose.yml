@@ -11,4 +11,4 @@ services:
     build:
       dockerfile: ./docker/nginx/Dockerfile
     ports:
-      - "8080:80"
+      - "80:80"
