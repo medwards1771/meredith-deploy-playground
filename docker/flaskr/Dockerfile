@@ -10,4 +10,4 @@ RUN pip install -r requirements.txt
 COPY ./flaskr flaskr
 
 WORKDIR /flaskr
-ENTRYPOINT ["gunicorn", "--workers", "3", "--timeout", "120", "--bind", ":8000", "hello:app"]
+ENTRYPOINT ["gunicorn", "--workers", "3", "--timeout", "120", "--bind", "0.0.0.0:8000", "hello:app"]
