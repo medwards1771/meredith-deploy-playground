@@ -3,8 +3,6 @@ services:
     image: meredith1771/flaskr:latest
     build:
       dockerfile: ./docker/flaskr/Dockerfile
-    ports:
-      - "3000:8000"
     restart: always
   nginx:
     image: meredith1771/nginx:latest
