@@ -34,6 +34,6 @@ fi
 echo "=== Allow buildkite-agent to run docker processess ==="
 sudo apt-get update
 sudo apt-get install members
+sudo groupadd docker
 sudo usermod -aG docker buildkite-agent
-sudo newgrp docker
 EOF
