@@ -20,16 +20,16 @@ steps:
 
   - wait
 
-  - label: "Configure nginx"
-    plugins:
-    - docker-login#v3.0.0:
-        username: meredith1771
-        password-env: DOCKER_LOGIN_PASSWORD
-    command: "bin/nginx.sh"
-
   - label: ":rocket: Deploy flaskr app"
     plugins:
     - docker-login#v3.0.0:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/deploy.sh"
+
+  - label: "Configure nginx"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    command: "bin/nginx.sh"
