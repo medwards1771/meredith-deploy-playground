@@ -13,3 +13,10 @@ htmlcov/
 dist/
 build/
 *.egg-info/
+
+# Terraform
+infra/.terraform*
+infra/terraform.tfstate*
+
+# AWS authentication
+meredith-deploy-playground_accessKeys.csv

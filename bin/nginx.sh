@@ -6,6 +6,6 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-echo "Deploy changes to production"
+echo "Configure nginx web server production"
 
-docker compose up --detach --pull always flaskr
+docker compose up --detach --pull always nginx
