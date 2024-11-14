@@ -33,6 +33,7 @@ resource "aws_instance" "meredith_deploy_playground" {
 
   monitoring      = false
   security_groups = ["allow-all-outbound-traffic", "restrict-inbound-http-https-to-vpc-network", "allow-all-inbound-ssh-traffic"]
+  key_name        = "meredith-deploy-playground-web-server"
 
   tags = {
     Name = "meredith-deploy-playground"

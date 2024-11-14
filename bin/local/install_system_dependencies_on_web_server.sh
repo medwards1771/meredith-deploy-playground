@@ -5,33 +5,35 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euo pipefail
 
-MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-3-145-146-61.us-east-2.compute.amazonaws.com
+MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-217-99-34.us-east-2.compute.amazonaws.com
 
 scp bin/local/install_buildkite_agent.sh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/install_buildkite_agent.sh
 scp bin/local/install_docker.sh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/install_docker.sh
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
-set -euo pipefail
+set -euxo pipefail
 
-echo "========= Create new access group for docker =========" # Needed to buildkite-agent to run docker processes
-sudo apt-get install members
-sudo newgrp docker
-
-DOCKER="$(which docker)"
-if [ $DOCKER = "/usr/bin/docker" ]; then
-  echo "Docker already installed"
-else
+if ! which docker &> /dev/null; then
+  echo "Docker is not installed. Installing..."
   mv /tmp/install_docker.sh .
   ./install_docker.sh
   rm install_docker.sh
+else
+  echo "Docker is already installed."
 fi
 
-BUILDKITE_AGENT="$(which buildkite-agent)"
-if [ $BUILDKITE_AGENT = "/usr/bin/buildkite-agent" ]; then
-  echo "buildkite-agent already installed"
-else
+if ! which buildkite-agent &> /dev/null; then
+  echo "buildkite-agent is not installed. Installing..."
   mv /tmp/install_buildkite_agent.sh .
   ./install_buildkite_agent.sh
   rm install_buildkite_agent.sh
+else
+  echo "buildkite-agent already installed"
 fi
+
+echo "=== Allow buildkite-agent to run docker processess ==="
+sudo apt-get update
+sudo apt-get install members
+sudo usermod -aG docker buildkite-agent
+sudo newgrp docker
 EOF

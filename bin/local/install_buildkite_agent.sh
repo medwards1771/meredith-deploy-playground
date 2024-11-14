@@ -9,13 +9,8 @@ echo "========= Install buildkite agent ========="
 # From https://buildkite.com/docs/agent/v3/ubuntu#installation
 
 echo "Download the Buildkite PGP key to a directory that is only writable by root"
-KEYRING="$(ls /usr/share/keyrings/buildkite-agent-archive-keyring.gpg)"
-if [ $KEYRING = "/usr/share/keyrings/buildkite-agent-archive-keyring.gpg" ]; then
-  echo "PGP key already downloaded"
-else
-  sudo curl -fsSL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x32A37959C2FA5C3C99EFBC32A79206696452D198&exact=on&options=mr' | \
-  sudo gpg --dearmor -o /usr/share/keyrings/buildkite-agent-archive-keyring.gpg
-fi
+curl -fsSL https://keys.openpgp.org/vks/v1/by-fingerprint/32A37959C2FA5C3C99EFBC32A79206696452D198 | \
+    sudo gpg --dearmor -o /usr/share/keyrings/buildkite-agent-archive-keyring.gpg
 
 echo "Add the signed source to list of apt sources"
 echo "deb [signed-by=/usr/share/keyrings/buildkite-agent-archive-keyring.gpg] \
@@ -30,6 +25,3 @@ sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 
 echo "========= Update apt package index to get latest package versions ========="
 sudo apt-get update
-
-echo "========= Add buildkite-agent to docker group ========="
-sudo usermod -aG docker buildkite-agent
