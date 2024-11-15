@@ -10,8 +10,8 @@ echo "Configure nginx web server production"
 
 docker compose up --detach --pull always nginx
 
-echo "Wait 10s before performing healthcheck"
-sleep 10
+echo "Wait 15s before performing healthcheck"
+sleep 15
 
 HEALTH_STATUS=$(docker inspect --format '{{.State.Health.Status}}' "meredith-deploy-playground-nginx-1")
 

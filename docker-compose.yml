@@ -6,7 +6,7 @@ services:
     ports:
       - "80:80"
     healthcheck:
-      test: ["CMD", "wget", "--spider", "--header", "Host: meredith-deploy-playground.co", "http://localhost:8000/"]
+      test: ["CMD", "wget", "--spider", "--header", "Host: meredith-deploy-playground.co", "http://localhost:80/"]
       interval: 5s
       retries: 3
       start_period: 5s
