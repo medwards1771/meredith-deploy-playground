@@ -6,7 +6,7 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-3-145-146-61.us-east-2.compute.amazonaws.com
+MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-217-99-34.us-east-2.compute.amazonaws.com
 
 ssh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP} << 'EOF'
 set -euo pipefail
