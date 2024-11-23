@@ -91,6 +91,12 @@ resource "aws_lb_target_group" "http_https_traffic" {
   vpc_id   = aws_vpc.meredith_deploy_playground.id
 }
 
+resource "aws_lb_target_group_attachment" "http" {
+  target_group_arn = aws_lb_target_group.http_https_traffic.arn
+  target_id        = aws_instance.meredith_deploy_playground.id
+  port             = 80
+}
+
 resource "aws_vpc" "meredith_deploy_playground" {
   cidr_block = "172.31.0.0/16"
 }
