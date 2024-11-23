@@ -3,9 +3,9 @@
 # `e`	        Exit script immediately if any command returns a non-zero exit status
 # `u`	        Exit script immediately if an undefined variable is used
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
-set -euo pipefail
+set -euxo pipefail
 
-MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=ec2-18-217-99-34.us-east-2.compute.amazonaws.com
+MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP=$(grep "^publicdnsname:" bin/local/webserver.txt | cut -d' ' -f2)
 
 scp bin/local/install_buildkite_agent.sh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/install_buildkite_agent.sh
 scp bin/local/install_docker.sh ubuntu@${MEREDITH_DEPLOY_PLAYGROUND_WEB_SERVER_PUBLIC_IP}:/tmp/install_docker.sh
@@ -32,8 +32,5 @@ else
 fi
 
 echo "=== Allow buildkite-agent to run docker processess ==="
-sudo apt-get update
-sudo apt-get install members
-sudo groupadd docker
 sudo usermod -aG docker buildkite-agent
 EOF
