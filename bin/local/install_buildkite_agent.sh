@@ -19,7 +19,7 @@ echo "deb [signed-by=/usr/share/keyrings/buildkite-agent-archive-keyring.gpg] \
 
 echo "Install buildkite agent"
 sudo apt-get update && sudo apt-get install -y buildkite-agent
-# I ssh'd onto the EC2 instance and updated the INSERT-YOUR-AGENT-TOKEN-HERE value in `/etc/buildkite-agent/buildkite-agent.cfg` file manually
+# I ssh'd onto the EC2 instance and updated INSERT-YOUR-AGENT-TOKEN-HERE with `sudo vi /etc/buildkite-agent/buildkite-agent.cfg`
 
 sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 

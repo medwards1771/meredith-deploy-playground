@@ -33,9 +33,9 @@ resource "aws_lb" "meredith_deploy_playground" {
   security_groups    = ["sg-0d324a71da2676332", "sg-0d5993757572fb9c3", "sg-0f2660631f08705c3"]
   subnets            = ["subnet-e5e953a9", "subnet-3dd78447", "subnet-eb04e180"]
 
-  enable_http2 = false
+  enable_http2                                = false
   enable_tls_version_and_cipher_suite_headers = true
-  enable_waf_fail_open = true
+  enable_waf_fail_open                        = true
 
   enable_deletion_protection = false
 }
@@ -49,12 +49,12 @@ resource "aws_lb_listener" "http" {
     type = "forward"
     forward {
       target_group {
-        arn = aws_lb_target_group.http_https_traffic.arn
+        arn    = aws_lb_target_group.http_https_traffic.arn
         weight = 1
       }
       stickiness {
         duration = 3600
-        enabled = false
+        enabled  = false
       }
     }
     target_group_arn = aws_lb_target_group.http_https_traffic.arn
@@ -69,15 +69,15 @@ resource "aws_lb_listener" "https" {
   certificate_arn   = aws_acm_certificate.meredith_deploy_playground.arn
 
   default_action {
-    type             = "forward"
+    type = "forward"
     forward {
       target_group {
-        arn = aws_lb_target_group.http_https_traffic.arn
+        arn    = aws_lb_target_group.http_https_traffic.arn
         weight = 1
       }
       stickiness {
         duration = 3600
-        enabled = false
+        enabled  = false
       }
     }
     target_group_arn = aws_lb_target_group.http_https_traffic.arn
@@ -104,4 +104,34 @@ resource "aws_vpc" "meredith_deploy_playground" {
 resource "aws_acm_certificate" "meredith_deploy_playground" {
   domain_name       = "meredith-deploy-playground.co"
   validation_method = "DNS"
+}
+
+resource "aws_route53_zone" "meredith_deploy_playground" {
+  name          = "meredith-deploy-playground.co"
+  comment       = "Managed by Terraform"
+  force_destroy = false
+}
+
+resource "aws_route53_record" "meredith_deploy_playground" {
+  zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
+  name    = "meredith-deploy-playground.co"
+  type    = "A"
+
+  alias {
+    evaluate_target_health = true
+    name                   = aws_lb.meredith_deploy_playground.dns_name
+    zone_id                = aws_lb.meredith_deploy_playground.zone_id
+  }
+}
+
+resource "aws_route53_record" "www_meredith_deploy_playground" {
+  zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
+  name    = "www.meredith-deploy-playground.co"
+  type    = "A"
+
+  alias {
+    evaluate_target_health = false
+    name                   = "meredith-deploy-playground.co"
+    zone_id                = aws_route53_zone.meredith_deploy_playground.zone_id
+  }
 }
