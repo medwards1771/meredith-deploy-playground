@@ -8,7 +8,6 @@ steps:
         build: nginx
         push: nginx:meredith1771/nginx:latest
 
-
   - label: "Build flaskr app"
     plugins:
     - docker-login#v3.0.0:
@@ -19,6 +18,13 @@ steps:
         push: flaskr:meredith1771/meredith-deploy-playground:latest
 
   - wait
+
+  - label: ":rocket: Start database"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    command: "bin/database.sh"
 
   - label: ":rocket: Deploy flaskr app"
     plugins:
