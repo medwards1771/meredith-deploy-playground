@@ -16,3 +16,7 @@ services:
     build:
       dockerfile: ./docker/flaskr/Dockerfile
     restart: unless-stopped
+  database:
+    image: postgres:17.2-alpine3.20
+    restart: always
+    shm_size: 128mb
