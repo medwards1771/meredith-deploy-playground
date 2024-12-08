@@ -8,6 +8,10 @@ set -euxo pipefail
 
 echo "Start database"
 
-export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+# This was redacted in the buildkite UI logs! Interesting. Can you figure out why?
+export TREE=$BRANCH
+echo "here we go"
+echo "$ dolla dolla bill"
+echo $TREE
 
 docker compose up --detach database

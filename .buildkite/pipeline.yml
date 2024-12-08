@@ -26,7 +26,7 @@ steps:
         password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/database.sh"
     env:
-      POSTGRES_PASSWORD: POSTGRES_PASSWORD
+      BRANCH: BRANCH
 
   - label: ":rocket: Deploy flaskr app"
     plugins:
