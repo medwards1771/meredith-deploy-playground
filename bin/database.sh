@@ -6,6 +6,8 @@
 # `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-echo "Start database hell yeah legggooooo"
+echo "Start database"
+
+export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
 docker compose up --detach database
