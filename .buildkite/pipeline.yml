@@ -28,6 +28,8 @@ steps:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/database.sh"
+    env:
+      POSTGRES_PASSWORD: POSTGRES_PASSWORD
 
   - label: ":rocket: Deploy flaskr app"
     command: "bin/deploy.sh"
