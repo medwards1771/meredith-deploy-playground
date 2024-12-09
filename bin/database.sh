@@ -8,5 +8,4 @@ set -euxo pipefail
 
 echo "Start database"
 
-# The password is redacted in the buildkite UI logs! Interesting. Can you figure out why?
-POSTGRES_PASSWORD=$POSTGRES_PASSWORD docker compose up --detach database
+docker compose up --detach database
