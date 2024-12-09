@@ -7,4 +7,10 @@
 set -euxo pipefail
 
 echo "Start database"
+
+if [ -z "$POSTGRES_PASSWORD" ]; then
+  echo "POSTGRES_PASSWORD is null or empty"
+else
+  echo "POSTGRES_PASSWORD has a value"
+fi
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD docker compose up --detach database
