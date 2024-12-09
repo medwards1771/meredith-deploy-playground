@@ -13,4 +13,6 @@ if [ -z "$POSTGRES_PASSWORD" ]; then
 else
   echo "POSTGRES_PASSWORD has a value"
 fi
-POSTGRES_PASSWORD=$POSTGRES_PASSWORD docker compose up --detach database
+
+export POSTGRES_PASSWORD=$POSTGRES_PASSWORD
+docker compose up --detach database
