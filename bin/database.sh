@@ -7,5 +7,4 @@
 set -euxo pipefail
 
 echo "Start database"
-
 POSTGRES_PASSWORD=$POSTGRES_PASSWORD docker compose up --detach database
