@@ -33,3 +33,10 @@ steps:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/nginx.sh"
+
+  - label: "Make sure redis is up and running"
+    plugins:
+    - docker-login#v3.0.0:
+        username: meredith1771
+        password-env: DOCKER_LOGIN_PASSWORD
+    command: "bin/redis.sh"
