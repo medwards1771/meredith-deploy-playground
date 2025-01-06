@@ -8,5 +8,5 @@ set -euxo pipefail
 
 echo "Make sure redis is up and running"
 
-docker run --name production-redis --detach redis:8.0-M02-alpine3.20 redis-server --save 60 1 --loglevel warning
+docker compose up --detach --pull always redis
 
