@@ -9,8 +9,16 @@ instance=$1
 SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.txt | cut -d' ' -f2)
 
 ssh ubuntu@${SERVER_PUBLIC_IP} << 'EOF'
-set -euo pipefail
+set -euxo pipefail
 
-echo "========= Reload daemons for system-level services ========="
-sudo systemctl daemon-reload
+echo "========= Reset cluster ========="
+echo "y" | sudo kubeadm reset
+sudo rm -rf /etc/cni/net.d
+
+sudo iptables -P INPUT ACCEPT
+sudo iptables -P OUTPUT ACCEPT
+sudo iptables -P FORWARD ACCEPT
+sudo iptables -F
+
+sudo rm -rf .kube/
 EOF

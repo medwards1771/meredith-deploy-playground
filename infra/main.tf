@@ -26,6 +26,21 @@ resource "aws_instance" "meredith_deploy_playground" {
   }
 }
 
+
+resource "aws_instance" "spot_deploy_playground" {
+  instance_type     = "c7i-flex.large"
+  ami               = "ami-0884d2865dbe9de4b"
+  availability_zone = "us-east-2b"
+
+  monitoring      = false
+  security_groups = ["allow-all-outbound-traffic", "restrict-inbound-http-https-to-vpc-network", "allow-all-inbound-ssh-traffic"]
+  key_name        = "meredith-deploy-playground-web-server"
+
+  tags = {
+    Name = "spot-deploy-playground"
+  }
+}
+
 resource "aws_lb" "meredith_deploy_playground" {
   name               = "meredith-deploy-playground"
   internal           = false
@@ -93,7 +108,7 @@ resource "aws_lb_target_group" "http_https_traffic" {
 
 resource "aws_lb_target_group_attachment" "http" {
   target_group_arn = aws_lb_target_group.http_https_traffic.arn
-  target_id        = aws_instance.meredith_deploy_playground.id
+  target_id        = aws_instance.spot_deploy_playground.id
   port             = 80
 }
 
