@@ -8,4 +8,17 @@ set -euxo pipefail
 
 echo "Deploy changes to production"
 
-docker compose up --detach --pull always flaskr
+if [ -z "${DOCKER_IMAGE:-}" ]; then
+  echo ":boom: \$DOCKER_IMAGE missing" 1>&2
+  exit 1
+fi
+
+manifest="$(mktemp)"
+
+echo '--- :kubernetes: Shipping'
+
+envsubst < bin/k8s/deployment.yaml > "${manifest}"
+kubectl apply -f "${manifest}"
+
+echo '--- :zzz: Waiting for deployment'
+kubectl wait --for condition=available --timeout=60s -f "${manifest}"

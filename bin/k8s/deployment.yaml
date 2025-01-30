@@ -1,0 +1,25 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flaskr
+  namespace: calico-system
+  labels:
+    app: flaskr
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: flaskr
+  template:
+    metadata:
+      labels:
+        app: flaskr
+    spec:
+      imagePullSecrets:
+        - name: docker-login-credentials
+      containers:
+        - name: flaskr
+          image: "${DOCKER_IMAGE}"
+          ports:
+            - containerPort: 8000

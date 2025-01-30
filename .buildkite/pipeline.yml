@@ -26,6 +26,10 @@ steps:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
     command: "bin/deploy.sh"
+    env:
+      DOCKER_IMAGE: "meredith1771/meredith-deploy-playground:latest"
+
+  - wait
 
   - label: "Configure nginx"
     plugins:
