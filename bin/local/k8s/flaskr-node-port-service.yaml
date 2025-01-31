@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: flaskr
+  namespace: calico-system
+spec:
+  selector:
+    app: flaskr
+  ports:
+    - protocol: TCP
+      port: 8000       # The port the service exposes internally
+      targetPort: 8000 # The port your pod is listening on
+      nodePort: 30080  # The external port to expose on host machine, range: 30000-32767. Required for nginx to access flaskr. Can remove after migrating nginx to kubernetes service.
+  type: NodePort
