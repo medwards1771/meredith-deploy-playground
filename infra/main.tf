@@ -12,21 +12,6 @@ provider "aws" {
   region  = "us-east-2"
 }
 
-resource "aws_instance" "meredith_deploy_playground" {
-  instance_type     = "t2.micro"
-  ami               = "ami-037ecc1acfbd8bc2c"
-  availability_zone = "us-east-2b"
-
-  monitoring      = false
-  security_groups = ["allow-all-outbound-traffic", "restrict-inbound-http-https-to-vpc-network", "allow-all-inbound-ssh-traffic"]
-  key_name        = "meredith-deploy-playground-web-server"
-
-  tags = {
-    Name = "meredith-deploy-playground"
-  }
-}
-
-
 resource "aws_instance" "spot_deploy_playground" {
   instance_type     = "c7i-flex.large"
   ami               = "ami-0884d2865dbe9de4b"
