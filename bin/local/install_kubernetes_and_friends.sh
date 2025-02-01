@@ -36,3 +36,7 @@ sudo systemctl enable --now kubelet
 # ./initialize_cluster.sh
 # ./install_pod_network_plugin.sh
 
+# ??
+# ./bin/local/create_node_port_service.sh
+# ./bin/local/k8s/docker-credentials-secret.txt
+# ./bin/deploy

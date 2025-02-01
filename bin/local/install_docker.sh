@@ -28,4 +28,4 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin 
 # I ssh'd onto the instance, then
 # `sudo cp /etc/buildkite-agent/hooks/environment.sample /etc/buildkite-agent/hooks/environment`
 # `sudo vi /etc/buildkite-agent/hooks/environment`
-# => added `export DOCKER_LOGIN_PASSWORD=
+# => added `export DOCKER_LOGIN_PASSWORD=<redacted>
