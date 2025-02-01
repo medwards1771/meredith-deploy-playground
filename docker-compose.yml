@@ -13,7 +13,6 @@ services:
       timeout: 2s
     restart: unless-stopped
   flaskr:
-    image: meredith1771/flaskr:latest
     build:
       dockerfile: ./docker/flaskr/Dockerfile
     restart: unless-stopped

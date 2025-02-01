@@ -16,14 +16,12 @@ steps:
         password-env: DOCKER_LOGIN_PASSWORD
     - docker-compose#v5.4.1:
         build: flaskr
-        push: flaskr:meredith1771/meredith-deploy-playground:latest
+        push: flaskr:meredith1771/meredith-deploy-playground:pipelinev1
 
   - wait
 
   - label: ":rocket: Deploy flaskr app"
     command: "bin/deploy.sh"
-    env:
-      DOCKER_IMAGE: "meredith1771/meredith-deploy-playground:latest"
 
   - wait
 

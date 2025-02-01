@@ -8,17 +8,8 @@ set -euxo pipefail
 
 echo "Deploy changes to production"
 
-if [ -z "${DOCKER_IMAGE:-}" ]; then
-  echo ":boom: \$DOCKER_IMAGE missing" 1>&2
-  exit 1
-fi
-
-manifest="$(mktemp)"
-
 echo '--- :kubernetes: Shipping'
-
-envsubst < bin/k8s/deployment.yaml > "${manifest}"
-kubectl apply -f "${manifest}"
+kubectl apply -f bin/k8s/deployment.yaml
 
 echo '--- :zzz: Waiting for deployment'
-kubectl wait --for condition=available --timeout=60s -f "${manifest}"
+kubectl wait --for condition=available --timeout=60s -f bin/k8s/deployment.yaml

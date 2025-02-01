@@ -20,6 +20,6 @@ spec:
         - name: docker-login-credentials
       containers:
         - name: flaskr
-          image: "${DOCKER_IMAGE}"
+          image: meredith1771/meredith-deploy-playground:pipelinev1
           ports:
             - containerPort: 8000
