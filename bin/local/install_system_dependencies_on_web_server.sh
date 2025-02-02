@@ -1,8 +1,9 @@
 #!/bin/bash
 
-# `e`	        Exit script immediately if any command returns a non-zero exit status
-# `u`	        Exit script immediately if an undefined variable is used
-# `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
+# `e`	          Exit script immediately if any command returns a non-zero exit status
+# `u`	          Exit script immediately if an undefined variable is used
+# `x`           Display each command as executed, preceded by +
+# `o pipefail`	Ensure chained commands (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
 instance=$1
@@ -10,9 +11,6 @@ SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.tx
 
 scp bin/local/install_buildkite_agent.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_buildkite_agent.sh
 scp bin/local/install_docker.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_docker.sh
-scp bin/local/install_kubernetes_and_friends.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_kubernetes_and_friends.sh
-scp bin/local/kubeadm-config.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/kubeadm-config.yaml
-scp bin/local/containerd-config.toml ubuntu@${SERVER_PUBLIC_IP}:/tmp/containerd-config.toml
 
 ssh ubuntu@${SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
@@ -37,20 +35,4 @@ fi
 
 echo "=== Allow buildkite-agent to run docker processes ==="
 sudo usermod -aG docker buildkite-agent
-
-if ! which kubectl &> /dev/null; then
-  echo "K8s tools not installed. Installing..."
-  mv /tmp/install_kubernetes_and_friends.sh .
-  mv /tmp/kubeadm-config.yaml .
-  ./install_kubernetes_and_friends.sh
-  rm install_kubernetes_and_friends.sh
-  rm kubeadm-config.yaml
-else
-  echo "K8s tools already installed"
-fi
-
-sudo ufw allow 22
-sudo ufw allow 80
-sudo ufw allow 443
-# sudo ufw enable -> had to run manually because required 'Y' input verification
 EOF

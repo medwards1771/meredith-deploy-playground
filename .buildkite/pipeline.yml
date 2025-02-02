@@ -1,3 +1,6 @@
+# Buildkite assigns DOCKER_LOGIN_PASSWORD via an agent hook that runs at the beginning of every step assigning `password-env:`
+# https://buildkite.com/docs/agent/v3/hooks#hook-locations-agent-hooks
+
 steps:
   - label: "Build nginx web server"
     plugins:

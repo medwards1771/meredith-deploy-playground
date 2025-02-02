@@ -19,9 +19,9 @@ echo "deb [signed-by=/usr/share/keyrings/buildkite-agent-archive-keyring.gpg] \
 
 echo "Install buildkite agent"
 sudo apt-get update && sudo apt-get install -y buildkite-agent
-# I ssh'd onto the EC2 instance and updated INSERT-YOUR-AGENT-TOKEN-HERE with `sudo vi /etc/buildkite-agent/buildkite-agent.cfg`
-
 sudo systemctl enable buildkite-agent && sudo systemctl start buildkite-agent
 
-echo "========= Update apt package index to get latest package versions ========="
-sudo apt-get update
+echo "******************************************************************************"
+echo "Assign agent token in /etc/buildkite-agent/buildkite-agent.cfg"
+echo "Set DOCKER_LOGIN_PASSWORD as env var in /etc/buildkite-agent/hooks/environment"
+echo "******************************************************************************"

@@ -2,41 +2,66 @@
 
 # `e`	        Exit script immediately if any command returns a non-zero exit status
 # `u`	        Exit script immediately if an undefined variable is used
-# `o pipefail`	Ensure Bash pipelines (for example, cmd | othercmd) return a non-zero status if any of the commands fail
+# `x`           Display each command as executed, preceded by +
+# `o pipefail`	Ensure chained commands (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-echo "========= Installing Kubernetes and friends ========="
+instance=$1
+SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.txt | cut -d' ' -f2)
+
+scp bin/local/install_kube_packages.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_kube_packages.sh
+scp bin/local/configure_cgroup.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/configure_cgroup.sh
+scp bin/local/containerd-config.toml ubuntu@${SERVER_PUBLIC_IP}:/tmp/containerd-config.toml
+scp bin/local/initialize_cluster.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/initialize_cluster.sh
+scp bin/local/kubeadm-config.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/kubeadm-config.yaml
+scp bin/local/install_pod_network_plugin.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_pod_network_plugin.sh
+scp bin/local/create_node_port_service.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/create_node_port_service.sh
+scp bin/local/k8s/flaskr-node-port-service.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/flaskr-node-port-service.yaml
+
+ssh ubuntu@${SERVER_PUBLIC_IP} << 'EOF'
+set -euxo pipefail
+
+echo "========= Install Kubernetes and friends ========="
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/install-kubeadm/
 
-echo "========= Update the apt package index ========="
-sudo apt-get update
-
-echo "========= Install packages needed to use the Kubernetes apt repository ========="
-sudo apt-get install -y apt-transport-https ca-certificates curl gpg
-
-echo "========= Download the public signing key for the Kubernetes package repositories ========="
-if [ -e "/etc/apt/keyrings/kubernetes-apt-keyring.gpg" ]; then
-    echo "Signing key already downloaded"
-else
-    curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo "========= Check for prerequisites ========="
+if ! which docker &> /dev/null; then
+  echo "You must install docker to proceed"
+exit 1
 fi
 
-echo "========= Add the appropriate Kubernetes apt repository ========="
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "========= Install kube packages ========="
+mv /tmp/install_kube_packages.sh .
+./install_kube_packages.sh
+rm install_kube_packages.sh
 
-echo "========= Install kubelet, kubeadm and kubectl, pin versions ========="
-sudo apt-get install -y kubelet kubeadm kubectl
-sudo apt-mark hold kubelet kubeadm kubectl
+echo "========= Configure cgroup ========="
+mv /tmp/configure_cgroup.sh .
+./configure_cgroup.sh
+rm configure_cgroup.sh
 
-echo "========= Enable kubelet service before running kubeadm ========="
-sudo systemctl enable --now kubelet
+echo "========= Initialize cluster ========="
+mv /tmp/initialize_cluster.sh .
+./initialize_cluster.sh
+rm initialize_cluster.sh
 
-# Next scripts to run in order
-# ./configure_cgroup.sh
-# ./initialize_cluster.sh
-# ./install_pod_network_plugin.sh
+echo "========= Install pod network plugin ========="
+# https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network
+# A container network interface (CNI) based pod network add-on is required for pods to communicate with each other. Cluster DNS (CoreDNS) will not start up before a network is installed.
+mv /tmp/install_pod_network_plugin.sh .
+./install_pod_network_plugin.sh
+rm install_pod_network_plugin.sh
 
-# ??
-# ./bin/local/create_node_port_service.sh
-# ./bin/local/k8s/docker-credentials-secret.txt
-# ./bin/deploy
+echo "========= Pause to let K8s clock new calico-system namespace ========="
+sleep 5
+
+echo "========= Expose web service to host network via node port ========="
+mv /tmp/create_node_port_service.sh .
+./create_node_port_service.sh
+rm create_node_port_service.sh
+
+echo "========= Grant cluster access to docker registry ========="
+echo "*******************************************************************"
+echo "Run command in bin/local/k8s/docker-credentials-secret.txt manually"
+echo "*******************************************************************"
+EOF
