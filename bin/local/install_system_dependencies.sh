@@ -9,8 +9,8 @@ set -euxo pipefail
 instance=$1
 SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.txt | cut -d' ' -f2)
 
-scp bin/local/install_buildkite_agent.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_buildkite_agent.sh
-scp bin/local/install_docker.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_docker.sh
+scp bin/local/system-dependencies/install_buildkite_agent.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_buildkite_agent.sh
+scp bin/local/system-dependencies/install_docker.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_docker.sh
 
 ssh ubuntu@${SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail

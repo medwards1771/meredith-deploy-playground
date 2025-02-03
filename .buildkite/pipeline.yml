@@ -24,7 +24,7 @@ steps:
   - wait
 
   - label: ":rocket: Deploy flaskr app"
-    command: "bin/deploy.sh"
+    command: "bin/deploy_web_app.sh"
     env:
       DOCKER_IMAGE: "meredith1771/meredith-deploy-playground:${BUILDKITE_COMMIT}"
 
@@ -35,4 +35,4 @@ steps:
     - docker-login#v3.0.0:
         username: meredith1771
         password-env: DOCKER_LOGIN_PASSWORD
-    command: "bin/nginx.sh"
+    command: "bin/deploy_nginx.sh"

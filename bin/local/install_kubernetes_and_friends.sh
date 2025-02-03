@@ -9,14 +9,14 @@ set -euxo pipefail
 instance=$1
 SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.txt | cut -d' ' -f2)
 
-scp bin/local/install_kube_packages.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_kube_packages.sh
-scp bin/local/configure_cgroup.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/configure_cgroup.sh
-scp bin/local/containerd-config.toml ubuntu@${SERVER_PUBLIC_IP}:/tmp/containerd-config.toml
-scp bin/local/initialize_cluster.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/initialize_cluster.sh
-scp bin/local/kubeadm-config.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/kubeadm-config.yaml
-scp bin/local/install_pod_network_plugin.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_pod_network_plugin.sh
-scp bin/local/create_node_port_service.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/create_node_port_service.sh
-scp bin/local/k8s/flaskr-node-port-service.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/flaskr-node-port-service.yaml
+scp bin/local/kubernetes-and-friends/install_kube_packages.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_kube_packages.sh
+scp bin/local/kubernetes-and-friends/configure_cgroup.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/configure_cgroup.sh
+scp bin/local/kubernetes-and-friends/containerd-config.toml ubuntu@${SERVER_PUBLIC_IP}:/tmp/containerd-config.toml
+scp bin/local/kubernetes-and-friends/initialize_cluster.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/initialize_cluster.sh
+scp bin/local/kubernetes-and-friends/kubeadm-config.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/kubeadm-config.yaml
+scp bin/local/kubernetes-and-friends/install_pod_network_plugin.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_pod_network_plugin.sh
+scp bin/local/kubernetes-and-friends/create_node_port_service.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/create_node_port_service.sh
+scp bin/local/kubernetes-and-friends/flaskr-node-port-service.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/flaskr-node-port-service.yaml
 
 ssh ubuntu@${SERVER_PUBLIC_IP} << 'EOF'
 set -euxo pipefail
@@ -61,7 +61,7 @@ mv /tmp/create_node_port_service.sh .
 rm create_node_port_service.sh
 
 echo "========= Grant cluster access to docker registry ========="
-echo "*******************************************************************"
-echo "Run command in bin/local/k8s/docker-credentials-secret.txt manually"
-echo "*******************************************************************"
+echo "****************************************************************************************************"
+echo "ssh onto server and run command in bin/local/kubernetes-and-friends/kubectl_create_docker_secret.txt"
+echo "****************************************************************************************************"
 EOF
