@@ -8,7 +8,7 @@ set -euo pipefail
 echo "========= Install buildkite agent ========="
 # From https://buildkite.com/docs/agent/v3/ubuntu#installation
 
-echo "Download the Buildkite PGP key to a directory that is only writable by root"
+echo "Download Buildkite PGP key"
 curl -fsSL https://keys.openpgp.org/vks/v1/by-fingerprint/32A37959C2FA5C3C99EFBC32A79206696452D198 | \
     sudo gpg --dearmor -o /usr/share/keyrings/buildkite-agent-archive-keyring.gpg
 

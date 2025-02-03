@@ -33,6 +33,6 @@ else
   echo "buildkite-agent already installed"
 fi
 
-echo "=== Allow buildkite-agent to run docker processes ==="
+echo "=== Append buildkite-agent to docker group to let agent run docker processes ==="
 sudo usermod -aG docker buildkite-agent
 EOF

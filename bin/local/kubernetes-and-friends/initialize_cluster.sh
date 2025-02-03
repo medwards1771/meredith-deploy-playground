@@ -11,7 +11,6 @@ echo "========= Assign pod subnet to calico-provided CIDR ========="
 
 mv /tmp/kubeadm-config.yaml .
 sudo kubeadm init --config kubeadm-config.yaml
-# TODO: try trapping the `kubeadm init` commandso it won't error and throw a non-zero exit status when the cluster is already init'd
 rm kubeadm-config.yaml
 
 echo "========= Grant ubuntu user admin access to cluster resources ========="
