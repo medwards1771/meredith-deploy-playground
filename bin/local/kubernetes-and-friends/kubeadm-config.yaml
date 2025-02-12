@@ -1,7 +1,7 @@
 kind: ClusterConfiguration
 apiVersion: kubeadm.k8s.io/v1beta4
 networking:
-  podSubnet: "192.168.0.0/16"   # Specify Pod Network CIDR here
+  podSubnet: "192.168.0.0/16" # Specify Pod Network CIDR here
 kubernetesVersion: v1.32.1
 ---
 kind: KubeletConfiguration

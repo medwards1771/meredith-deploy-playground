@@ -19,11 +19,13 @@ else
     curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 fi
 
-echo "========= Add the appropriate Kubernetes apt repository ========="
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+echo "========= Add the Kubernetes repository to apt sources ========="
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.32/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list`
 
-echo "========= Install kubelet, kubeadm and kubectl, pin versions ========="
-sudo apt-get update # Update the package index so apt knows about the new packages available from K8s repository.
+echo "=== Update apt package index so it has access to Kubernetes packages ==="
+sudo apt-get update
+
+echo "========= Install kubelet, kubeadm, and kubectl then pin versions ========="
 sudo apt-get install -y kubelet kubeadm kubectl
 sudo apt-mark hold kubelet kubeadm kubectl
 
