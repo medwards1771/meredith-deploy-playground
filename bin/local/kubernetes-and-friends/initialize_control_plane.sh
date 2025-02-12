@@ -6,8 +6,7 @@
 # `o pipefail`	Ensure chained commands (for example, cmd | othercmd) return a non-zero status if any of the commands fail
 set -euxo pipefail
 
-echo "========= Assign pod subnet to calico-provided CIDR ========="
-# https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart#create-a-single-host-kubernetes-cluster
+echo "========= Initialize control plane ========="
 
 mv /tmp/kubeadm-config.yaml .
 sudo kubeadm init --config kubeadm-config.yaml

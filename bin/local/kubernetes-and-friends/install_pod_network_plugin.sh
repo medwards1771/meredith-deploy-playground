@@ -7,6 +7,8 @@
 set -euxo pipefail
 
 echo "========= Install calico operator and custom resource definitions ========="
+# https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart
+
 kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.29.1/manifests/tigera-operator.yaml
 
 echo "========= Pause for 5 seconds to let kubectl clock new CRDs ========="

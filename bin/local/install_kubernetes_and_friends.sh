@@ -10,9 +10,8 @@ instance=$1
 SERVER_PUBLIC_IP=$(grep "^${instance}-deploy-playground:" bin/local/webserver.txt | cut -d' ' -f2)
 
 scp bin/local/kubernetes-and-friends/install_kube_packages.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_kube_packages.sh
-scp bin/local/kubernetes-and-friends/configure_cgroup.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/configure_cgroup.sh
-scp bin/local/kubernetes-and-friends/containerd-config.toml ubuntu@${SERVER_PUBLIC_IP}:/tmp/containerd-config.toml
-scp bin/local/kubernetes-and-friends/initialize_cluster.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/initialize_cluster.sh
+scp bin/local/kubernetes-and-friends/configure_containerd_cgroup.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/configure_containerd_cgroup.sh
+scp bin/local/kubernetes-and-friends/initialize_control_plane.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/initialize_control_plane.sh
 scp bin/local/kubernetes-and-friends/kubeadm-config.yaml ubuntu@${SERVER_PUBLIC_IP}:/tmp/kubeadm-config.yaml
 scp bin/local/kubernetes-and-friends/install_pod_network_plugin.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/install_pod_network_plugin.sh
 scp bin/local/kubernetes-and-friends/create_node_port_service.sh ubuntu@${SERVER_PUBLIC_IP}:/tmp/create_node_port_service.sh
@@ -36,14 +35,14 @@ mv /tmp/install_kube_packages.sh .
 rm install_kube_packages.sh
 
 echo "========= Configure cgroup ========="
-mv /tmp/configure_cgroup.sh .
-./configure_cgroup.sh
-rm configure_cgroup.sh
+mv /tmp/configure_containerd_cgroup.sh .
+./configure_containerd_cgroup.sh
+rm configure_containerd_cgroup.sh
 
-echo "========= Initialize cluster ========="
-mv /tmp/initialize_cluster.sh .
-./initialize_cluster.sh
-rm initialize_cluster.sh
+echo "========= Initialize control plane ========="
+mv /tmp/initialize_control_plane.sh .
+./initialize_control_plane.sh
+rm initialize_control_plane.sh
 
 echo "========= Install pod network plugin ========="
 # https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/create-cluster-kubeadm/#pod-network

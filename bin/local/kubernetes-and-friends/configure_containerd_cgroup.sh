@@ -9,5 +9,5 @@ set -euxo pipefail
 echo "========= Assign containerd runtime to systemd to match kubelet cgroup driver ========="
 # https://kubernetes.io/docs/tasks/administer-cluster/kubeadm/configure-cgroup-driver/#configuring-the-kubelet-cgroup-driver
 
-sudo mv /tmp/containerd-config.toml /etc/containerd/config.toml
+sudo sed -i 's/ SystemdCgroup = false/ SystemdCgroup = true/' /etc/containerd/config.toml
 sudo systemctl restart containerd
