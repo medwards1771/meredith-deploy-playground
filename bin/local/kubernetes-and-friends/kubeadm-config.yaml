@@ -7,3 +7,6 @@ kubernetesVersion: v1.32.1
 kind: KubeletConfiguration
 apiVersion: kubelet.config.k8s.io/v1beta1
 cgroupDriver: systemd
+failSwapOn: false # kubelet fails to start by default if swap is detected. Setting `failSwapOn` to `false` forces kubelet to tolerate swap
+memorySwap:
+  swapBehavior: LimitedSwap # Only pods of Burstable QoS are permitted to employ swap
