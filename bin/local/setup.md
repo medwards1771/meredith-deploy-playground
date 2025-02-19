@@ -10,5 +10,5 @@
     - Set DOCKER_LOGIN_PASSWORD env var in /etc/buildkite-agent/hooks/environment
 1. Run `bin/local/install_kubernetes_and_friends.sh <server-nickname>`
     - ssh onto the web server and run the command inside `bin/local/kubernetes-and-friends/kubectl_create_docker_secret.txt`
-1. Modify the server > location > proxy_pass value in `docker/nginx/nginx.conf` to match the new instance's enp39s0 IPv4 address
+1. Modify the server > location > proxy_pass value in `docker/nginx/nginx.conf` to match the new instance's enp39s0 IPv4 address (you see this in the welcome message after ssh'ing onto server)
 1. Test a deploy!

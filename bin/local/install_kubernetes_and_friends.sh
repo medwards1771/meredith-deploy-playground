@@ -34,7 +34,7 @@ mv /tmp/install_kube_packages.sh .
 ./install_kube_packages.sh
 rm install_kube_packages.sh
 
-echo "========= Configure cgroup ========="
+echo "========= Assign containerd runtime to systemd to match kubelet cgroup driver ========="
 mv /tmp/configure_containerd_cgroup.sh .
 ./configure_containerd_cgroup.sh
 rm configure_containerd_cgroup.sh
