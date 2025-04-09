@@ -112,7 +112,7 @@ resource "aws_route53_zone" "meredith_deploy_playground" {
   force_destroy = false
 }
 
-resource "aws_route53_record" "meredith_deploy_playground" {
+resource "aws_route53_record" "meredith_deploy_playground_co_A" {
   zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
   name    = "meredith-deploy-playground.co"
   type    = "A"
@@ -124,7 +124,7 @@ resource "aws_route53_record" "meredith_deploy_playground" {
   }
 }
 
-resource "aws_route53_record" "www_meredith_deploy_playground" {
+resource "aws_route53_record" "www_meredith_deploy_playground_co_A" {
   zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
   name    = "www.meredith-deploy-playground.co"
   type    = "A"
@@ -134,4 +134,28 @@ resource "aws_route53_record" "www_meredith_deploy_playground" {
     name                   = "meredith-deploy-playground.co"
     zone_id                = aws_route53_zone.meredith_deploy_playground.zone_id
   }
+}
+
+resource "aws_route53_record" "meredith_deploy_playground_co_NS" {
+  zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
+  name    = "meredith-deploy-playground.co"
+  type    = "NS"
+
+  records = []
+}
+
+resource "aws_route53_record" "meredith_deploy_playground_co_SOA" {
+  zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
+  name    = "meredith-deploy-playground.co"
+  type    = "SOA"
+
+  records = []
+}
+
+resource "aws_route53_record" "meredith_deploy_playground_co_acm_validation" {
+  zone_id = aws_route53_zone.meredith_deploy_playground.zone_id
+  name    = "_2c23264be2470147fde2428f0f09e2c5.meredith-deploy-playground.co"
+  type    = "CNAME"
+
+  records = []
 }
